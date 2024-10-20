@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:utip/widgets/bill_amount_field.dart';
 import 'package:utip/widgets/person_counter.dart';
 
 import 'widgets/tip_slider.dart';
@@ -84,44 +85,43 @@ class _UTipState extends State<UTip> {
                   width: 2,
                 ),
               ),
-              child: Column(children: [
-                TextField(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.attach_money),
-                    labelText: 'Bill Amount',
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(children: [
+                  BillAmountField(
+                    billAmount: "100",
+                    onChanged: (value) {
+                      print("Amount: $value");
+                    },
                   ),
-                  keyboardType: TextInputType.number,
-                  onChanged: (String value) {                    
-                  },
-                ),
-                // Split Bill Area
-                PersonCounter(theme: theme),
-
-                // === Tip Section ===
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Tip", 
-                    style: theme.textTheme.titleMedium,),
-                    Text("\$20", 
-                    style: theme.textTheme.titleMedium,)
-
-                ],), 
-
-                //  === Slider Text ===
-                Text('${(_tipPercentage * 100).round()} %'),
-
-                // === Tip Slider ===
-                TipSlider(
-                  tipPercentage: _tipPercentage,
-                  onChanged: (double value) {
-                    setState(() {
-                      _tipPercentage = value;
-                    });
-                  },
-                  )
-              ]),
+                  // Split Bill Area
+                  PersonCounter(theme: theme),
+                
+                  // === Tip Section ===
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Tip", 
+                      style: theme.textTheme.titleMedium,),
+                      Text("\$20", 
+                      style: theme.textTheme.titleMedium,)
+                
+                  ],), 
+                
+                  //  === Slider Text ===
+                  Text('${(_tipPercentage * 100).round()} %'),
+                
+                  // === Tip Slider ===
+                  TipSlider(
+                    tipPercentage: _tipPercentage,
+                    onChanged: (double value) {
+                      setState(() {
+                        _tipPercentage = value;
+                      });
+                    },
+                    )
+                ]),
+              ),
             ),
           )
         ],
@@ -129,4 +129,5 @@ class _UTipState extends State<UTip> {
     );
   }
 }
+
 
