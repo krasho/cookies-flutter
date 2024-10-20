@@ -30,6 +30,8 @@ class UTip extends StatefulWidget {
 }
 
 class _UTipState extends State<UTip> {
+  double _tipPercentage = 0;
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -93,7 +95,37 @@ class _UTipState extends State<UTip> {
                   },
                 ),
                 // Split Bill Area
-                PersonCounter(theme: theme)
+                PersonCounter(theme: theme),
+
+                // === Tip Section ===
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Tip", 
+                    style: theme.textTheme.titleMedium,),
+                    Text("\$20", 
+                    style: theme.textTheme.titleMedium,)
+
+                ],), 
+
+                //  === Slider Text ===
+                Text('${(_tipPercentage * 100).round()} %'),
+
+                // === Tip Slider ===
+                Slider(
+                  value: _tipPercentage,
+                  onChanged: (value) => {
+                    setState(() {
+                       _tipPercentage = value ; 
+                    })                   
+                  },
+                  min: 0,
+                  max: 0.5,
+                  divisions: 5,
+                  label: '${(_tipPercentage * 100).round()}',
+                )
+
+
               ]),
             ),
           )
