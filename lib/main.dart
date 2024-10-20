@@ -124,7 +124,7 @@ class _UTipState extends State<UTip> {
                     children: [
                       Text("Tip", 
                       style: theme.textTheme.titleMedium,),
-                      Text("\$20", 
+                      Text("\$${_counterService.totalTip().toStringAsFixed(2)}", 
                       style: theme.textTheme.titleMedium,)
                 
                   ],), 

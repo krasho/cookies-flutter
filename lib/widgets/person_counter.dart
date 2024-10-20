@@ -41,6 +41,7 @@ class _PersonCounterState extends State<PersonCounter> {
                   widget.counterService.setBillTotal(widget.billTotal);
                   widget.counterService.setTipPercentage(widget.tipPercentage);                  
                   widget.counterService.totalPerPerson();
+                  widget.counterService.totalTip();
                   widget.onChanged(widget.counterService.personCount);
                 });
               },
@@ -58,6 +59,7 @@ class _PersonCounterState extends State<PersonCounter> {
                   widget.counterService.setBillTotal(widget.billTotal);
                   widget.counterService.setTipPercentage(widget.tipPercentage);                  
                   widget.counterService.totalPerPerson();
+                  widget.counterService.totalTip();
                   widget.onChanged(widget.counterService.personCount);
                 });
               },

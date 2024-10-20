@@ -24,4 +24,8 @@ class CounterService {
   double totalPerPerson() {
     return ((_billTotal * _tipPercentage) + (_billTotal)) / personCount;
   }
+
+  double totalTip() {
+    return _billTotal * _tipPercentage;
+  }
 }
