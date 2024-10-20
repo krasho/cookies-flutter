@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:utip/services/counter_service.dart';
 import 'package:utip/widgets/bill_amount_field.dart';
 import 'package:utip/widgets/person_counter.dart';
 
@@ -34,12 +35,20 @@ class UTip extends StatefulWidget {
 
 class _UTipState extends State<UTip> {
   double _tipPercentage = 0;
+  double _billTotal = 100;
+
+  final CounterService _counterService = CounterService();  // Instancia del servicio
+
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     final style = theme.textTheme.titleMedium!.copyWith(
         color: theme.colorScheme.onPrimary, fontWeight: FontWeight.bold);
+
+    // Actualizar el porcentaje de propina en el servicio cuando cambie
+    _counterService.setTipPercentage(_tipPercentage);
+
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.black,
@@ -67,7 +76,7 @@ class _UTipState extends State<UTip> {
                 child: Column(
                   children: [
                     Text("Total per Person", style: style),
-                    Text("\$23.89",
+                    Text("\$${_counterService.totalPerPerson().toStringAsFixed(2)}",
                         style: style.copyWith(
                             color: theme.colorScheme.onPrimary,
                             fontSize: theme.textTheme.displaySmall?.fontSize)),
@@ -89,13 +98,25 @@ class _UTipState extends State<UTip> {
                 padding: const EdgeInsets.all(20),
                 child: Column(children: [
                   BillAmountField(
-                    billAmount: "100",
+                     billAmount: _billTotal.toString(),
                     onChanged: (value) {
-                      print("Amount: $value");
+                        setState(() {
+                          _billTotal = double.tryParse(value) ?? 0;
+                          _counterService.setBillTotal(_billTotal);
+                        });                      
                     },
                   ),
                   // Split Bill Area
-                  PersonCounter(theme: theme),
+                  PersonCounter(
+                    theme: theme,
+                    counterService: _counterService,
+                    billTotal: _billTotal,
+                    tipPercentage: _tipPercentage,
+                    onChanged: (newPersonCount) {
+                        setState((){});
+                    },
+
+                  ),
                 
                   // === Tip Section ===
                   Row(
@@ -117,6 +138,7 @@ class _UTipState extends State<UTip> {
                     onChanged: (double value) {
                       setState(() {
                         _tipPercentage = value;
+                        _counterService.setTipPercentage(_tipPercentage);
                       });
                     },
                     )

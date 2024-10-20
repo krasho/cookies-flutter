@@ -4,16 +4,24 @@ import 'package:utip/services/counter_service.dart';
 class PersonCounter extends StatefulWidget {
   const PersonCounter({
     super.key,
-    required this.theme    
+    required this.theme,
+    required this.counterService,  // Recibe el servicio
+    required this.billTotal,       // Recibe el bill total
+    required this.tipPercentage,   // Recibe el tip percentage    
+    required this.onChanged,   // Nueva propiedad onChanged
   });
 
   final ThemeData theme;  
+  final CounterService counterService;  // Recibe el servicio completo
+  final double billTotal;               // Añadir billTotal
+  final double tipPercentage;
+  final ValueChanged<int> onChanged;
+
   @override
   _PersonCounterState createState() => _PersonCounterState();
 }
 
-class _PersonCounterState extends State<PersonCounter> {
-  final CounterService _counterService = CounterService();  
+class _PersonCounterState extends State<PersonCounter> {  
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -29,20 +37,28 @@ class _PersonCounterState extends State<PersonCounter> {
               color: widget.theme.colorScheme.primary,
               onPressed: () {
                 setState(() {
-                  _counterService.decrement();
+                  widget.counterService.decrement();
+                  widget.counterService.setBillTotal(widget.billTotal);
+                  widget.counterService.setTipPercentage(widget.tipPercentage);                  
+                  widget.counterService.totalPerPerson();
+                  widget.onChanged(widget.counterService.personCount);
                 });
               },
               icon: const Icon(Icons.remove),
             ),
             Text(
-              "${_counterService.personCount}",
+              "${widget.counterService.personCount}",
               style: widget.theme.textTheme.titleMedium,
             ),
             IconButton(
               color: widget.theme.colorScheme.primary,
               onPressed: () {
                 setState(() {
-                  _counterService.increment();
+                  widget.counterService.increment();
+                  widget.counterService.setBillTotal(widget.billTotal);
+                  widget.counterService.setTipPercentage(widget.tipPercentage);                  
+                  widget.counterService.totalPerPerson();
+                  widget.onChanged(widget.counterService.personCount);
                 });
               },
               icon: const Icon(Icons.add),
